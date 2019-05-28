@@ -1,29 +1,22 @@
 const express = require("express");
-const cors = require('cors')
+const cors = require("cors");
 
 const app = express();
 
-app.use(cors())
+app.use(express.json());
+app.use(cors());
 
-const welcomeMessage = {
-  id: 0,
-  from: "Bart",
-  text: "Welcome to CYF chat system!"
-}
+//Use this array as your (in-memory) data store.
+const bookings = require("./bookings.json");
 
-//This array is our "data store".
-//We will start with one message in the array.
-//Note: messages will be lost when Glitch restarts our server.
-const messages = [welcomeMessage]
-
-
-app.get('/', function(request, response) {
-  response.sendFile(__dirname + '/index.html');
+app.get("/", function(request, response){
+  response.send("Hotel booking server.  Ask for /bookings, etc.");
 });
 
 
+// TODO add your routes and helper functions here
 
 
-
-
-app.listen(process.env.PORT);
+const listener = app.listen(process.env.PORT, function() {
+  console.log("Your app is listening on port " + listener.address().port);
+});
