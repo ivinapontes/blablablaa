@@ -18,10 +18,51 @@ app.get("/", function(request, response){
 app.post("/new", function(request, response){
   let booking = request.body;
   booking.id = nextIndex++;
-  
+  if(validateBooking===true){
     bookings.push(booking);
     response.status(201).json(bookings); 
+  } else{
+    response.sendStatus(400).send("Missing some item")
+  }
 })
+
+
+        // "id": 2,
+        // "title": "King",
+        // "firstName": "James",
+        // "surname": "Brown",
+        // "email": "jamesbrown@example.com",
+        // "roomId": 1,
+        // "checkInDate": "2018-02-15",
+        // "checkOutDate": "2018-02-28"
+
+
+function validateBooking (booking) {
+  if (      booking.title.length <= 0||
+      !booking.firstName ||
+      !booking.surname ||
+      !booking.email ||
+      !booking.roomId ||
+      !booking.checkInDate ||   
+      !booking.checkOutDate) {
+    console.log('Recipe failed validation: ', { booking })
+    return false
+  }
+  return true
+}
+
+// For this level, your server must reject requests to create bookings if:
+
+// any property of the booking object is missing or empty.
+// In this case your server should return a status code of 400, 
+//and should NOT store the booking in the bookings array.
+
+
+//   if (!message.text || !message.from){
+//     response.status(400).send('missing text or name')
+//     } else {
+//     messages.push(message);
+//     response.status(201).json(messages); 
 
 // Read all bookings
 app.get("/bookings", function(request, response){
@@ -50,18 +91,6 @@ app.delete("/delete/:id?", function (req, res) {
 
 
 
-// For this level, your server must reject requests to create bookings if:
-
-// any property of the booking object is missing or empty.
-// In this case your server should return a status code of 400, 
-//and should NOT store the booking in the bookings array.
-
-
-//   if (!message.text || !message.from){
-//     response.status(400).send('missing text or name')
-//     } else {
-//     messages.push(message);
-//     response.status(201).json(messages); 
 const listener = app.listen(process.env.PORT, function() {
   console.log("Your app is listening on port " + listener.address().port);
 });
