@@ -18,24 +18,15 @@ app.get("/", function(request, response){
 app.post("/new", function(request, response){
   let booking = request.body;
   booking.id = nextIndex++;
-  if(validateBooking===true){
+  if(validateBooking(booking)===false){
+    
+    response.sendStatus(400).send("Missing some item")
+  } else{
+    
     bookings.push(booking);
     response.status(201).json(bookings); 
-  } else{
-    response.sendStatus(400).send("Missing some item")
   }
 })
-
-
-        // "id": 2,
-        // "title": "King",
-        // "firstName": "James",
-        // "surname": "Brown",
-        // "email": "jamesbrown@example.com",
-        // "roomId": 1,
-        // "checkInDate": "2018-02-15",
-        // "checkOutDate": "2018-02-28"
-
 
 function validateBooking (booking) {
   if (      booking.title.length <= 0||
@@ -47,24 +38,10 @@ function validateBooking (booking) {
       !booking.checkOutDate) {
     console.log('Recipe failed validation: ', { booking })
     return false
-  }
+  } else{
   return true
+  }
 }
-
-// For this level, your server must reject requests to create bookings if:
-
-// any property of the booking object is missing or empty.
-// In this case your server should return a status code of 400, 
-//and should NOT store the booking in the bookings array.
-
-
-//   if (!message.text || !message.from){
-//     response.status(400).send('missing text or name')
-//     } else {
-//     messages.push(message);
-//     response.status(201).json(messages); 
-
-// Read all bookings
 app.get("/bookings", function(request, response){
   response.json(bookings);
 });
@@ -87,8 +64,6 @@ app.delete("/delete/:id?", function (req, res) {
     res.sendStatus(404);
   }
 })
-
-
 
 
 const listener = app.listen(process.env.PORT, function() {
