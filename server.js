@@ -46,6 +46,22 @@ app.delete("/delete/:id?", function (req, res) {
     res.sendStatus(404);
   }
 })
+
+
+
+
+// For this level, your server must reject requests to create bookings if:
+
+// any property of the booking object is missing or empty.
+// In this case your server should return a status code of 400, 
+//and should NOT store the booking in the bookings array.
+
+
+//   if (!message.text || !message.from){
+//     response.status(400).send('missing text or name')
+//     } else {
+//     messages.push(message);
+//     response.status(201).json(messages); 
 const listener = app.listen(process.env.PORT, function() {
   console.log("Your app is listening on port " + listener.address().port);
 });
